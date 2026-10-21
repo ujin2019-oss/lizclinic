@@ -92,6 +92,7 @@ menu.addEventListener('close', () => {
   updateLock();
 });
 menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+window.matchMedia('(min-width: 1200px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 // Native dialogs supply an inert background, Escape support, and a backdrop.
 // Explicit Tab wrapping also keeps the cycle inside the dialog at both ends.
 for (const modal of [menu, dialog]) {
@@ -110,7 +111,6 @@ for (const modal of [menu, dialog]) {
     }
   });
 }
-window.matchMedia('(min-width: 1200px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 
 function openInfo({ title, description, detail, eyebrow, consultation, detailHeading }, trigger) {
   const fromMenu = menu.open;
@@ -233,36 +233,15 @@ dialog.addEventListener('click', event => {
   if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
 });
 
-// Right rail channels are placeholders until verified public URLs are supplied.
+// Menu channels are placeholders until verified public URLs are supplied.
 const channelNames = { event: '이벤트', youtube: '유튜브', instagram: '인스타그램', blog: '블로그' };
 document.querySelectorAll('[data-channel]').forEach(button => button.addEventListener('click', () => {
   const name = channelNames[button.dataset.channel];
-  const trigger = window.innerWidth < 1200 ? document.querySelector('.quick-nav-toggle') : button;
   openInfo({ title: `${name} 안내`, eyebrow: 'LIZ CLINIC / QUICK MENU', consultation: true, detailHeading: '데모 채널 안내',
     description: button.dataset.channel === 'event' ? '현재 진행 중인 실제 이벤트는 없습니다. 이 메뉴는 포트폴리오용 데모입니다.' : `현재 연결된 공식 ${name} 채널이 없습니다. 이 메뉴는 포트폴리오용 데모입니다.`,
     detail: '실제 운영 시 확인된 콘텐츠와 공식 채널 주소를 연결할 예정입니다. 임의의 외부 계정이나 이벤트로 이동하지 않습니다.'
-  }, trigger);
+  }, button);
 }));
-const quickNav = document.querySelector('#quick-nav');
-const quickToggle = document.querySelector('.quick-nav-toggle');
-function closeQuickNav(restoreFocus = false) {
-  quickNav.classList.remove('is-open');
-  quickToggle.setAttribute('aria-expanded', 'false');
-  quickToggle.setAttribute('aria-label', '빠른 메뉴 열기');
-  if (restoreFocus) quickToggle.focus();
-}
-quickToggle.addEventListener('click', () => {
-  const open = quickNav.classList.toggle('is-open');
-  quickToggle.setAttribute('aria-expanded', String(open));
-  quickToggle.setAttribute('aria-label', open ? '빠른 메뉴 닫기' : '빠른 메뉴 열기');
-});
-quickNav.addEventListener('click', event => { if (event.target.closest('button,a')) closeQuickNav(); });
-document.addEventListener('click', event => { if (!quickNav.contains(event.target) && !quickToggle.contains(event.target)) closeQuickNav(); });
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && quickNav.classList.contains('is-open')) closeQuickNav(true);
-});
-window.matchMedia('(min-width: 1200px)').addEventListener('change', () => closeQuickNav());
-
 const heroCarousel = document.querySelector('.hero-carousel');
 if (heroCarousel) {
   const slides = [...heroCarousel.querySelectorAll('.hero-slide')];
