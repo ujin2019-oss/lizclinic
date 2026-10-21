@@ -166,33 +166,38 @@ for (const [key, content] of Object.entries(information)) {
   }));
 }
 
-const comparisonRange = document.querySelector('#compare-range');
-if (comparisonRange) {
+const comparisonFrame = document.querySelector('.compare-frame');
+if (comparisonFrame) {
+  const play = document.querySelector('#comparison-play');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let userPaused = reduced.matches;
+  let inView = false;
+  let showingAfter = false;
   const updateComparison = () => {
-    const value = Number(comparisonRange.value);
-    comparisonRange.closest('.compare-frame').style.setProperty('--compare-position', `${value}%`);
-    comparisonRange.setAttribute('aria-valuetext', `흑백 ${value}%, 컬러 ${100 - value}%`);
-    document.querySelector('#compare-value').textContent = `${value} / ${100 - value}`;
+    comparisonFrame.classList.toggle('is-auto-running', !userPaused && inView && !document.hidden && !reduced.matches);
+    play.replaceChildren(document.createTextNode(reduced.matches ? (showingAfter ? '비포 보기 ' : '애프터 보기 ') : (userPaused ? '자동 비교 시작 ' : '자동 비교 일시정지 ')));
+    const icon = document.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = reduced.matches ? '↔' : (userPaused ? '▶' : 'Ⅱ');
+    play.append(icon);
   };
-  comparisonRange.addEventListener('input', updateComparison);
-  // Pointer capture supports dragging anywhere on the comparison, including touch.
-  const moveComparison = event => {
-    const bounds = comparisonRange.getBoundingClientRect();
-    comparisonRange.value = Math.round(Math.max(0, Math.min(100, (event.clientX - bounds.left) / bounds.width * 100)));
+  play.addEventListener('click', () => {
+    if (reduced.matches) {
+      showingAfter = !showingAfter;
+      comparisonFrame.classList.toggle('is-showing-after', showingAfter);
+    } else userPaused = !userPaused;
     updateComparison();
-  };
-  comparisonRange.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
-    comparisonRange.focus({ preventScroll: true });
-    comparisonRange.setPointerCapture(event.pointerId);
-    moveComparison(event);
   });
-  comparisonRange.addEventListener('pointermove', event => {
-    if (comparisonRange.hasPointerCapture(event.pointerId)) moveComparison(event);
+  document.addEventListener('visibilitychange', updateComparison);
+  reduced.addEventListener('change', () => {
+    userPaused = true;
+    showingAfter = false;
+    comparisonFrame.classList.remove('is-showing-after');
+    updateComparison();
   });
-  comparisonRange.addEventListener('pointerup', event => {
-    if (comparisonRange.hasPointerCapture(event.pointerId)) comparisonRange.releasePointerCapture(event.pointerId);
-  });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => { inView = entries[0].isIntersecting; updateComparison(); }, { threshold: .2 }).observe(comparisonFrame);
+  } else inView = true;
   updateComparison();
 }
 
@@ -227,3 +232,119 @@ dialog.addEventListener('click', event => {
   const rect = dialog.getBoundingClientRect();
   if (event.target === dialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialog.close();
 });
+
+// Right rail channels are placeholders until verified public URLs are supplied.
+const channelNames = { event: '이벤트', youtube: '유튜브', instagram: '인스타그램', blog: '블로그' };
+document.querySelectorAll('[data-channel]').forEach(button => button.addEventListener('click', () => {
+  const name = channelNames[button.dataset.channel];
+  const trigger = window.innerWidth < 1200 ? document.querySelector('.quick-nav-toggle') : button;
+  openInfo({ title: `${name} 안내`, eyebrow: 'LIZ CLINIC / QUICK MENU', consultation: true, detailHeading: '데모 채널 안내',
+    description: button.dataset.channel === 'event' ? '현재 진행 중인 실제 이벤트는 없습니다. 이 메뉴는 포트폴리오용 데모입니다.' : `현재 연결된 공식 ${name} 채널이 없습니다. 이 메뉴는 포트폴리오용 데모입니다.`,
+    detail: '실제 운영 시 확인된 콘텐츠와 공식 채널 주소를 연결할 예정입니다. 임의의 외부 계정이나 이벤트로 이동하지 않습니다.'
+  }, trigger);
+}));
+const quickNav = document.querySelector('#quick-nav');
+const quickToggle = document.querySelector('.quick-nav-toggle');
+function closeQuickNav(restoreFocus = false) {
+  quickNav.classList.remove('is-open');
+  quickToggle.setAttribute('aria-expanded', 'false');
+  quickToggle.setAttribute('aria-label', '빠른 메뉴 열기');
+  if (restoreFocus) quickToggle.focus();
+}
+quickToggle.addEventListener('click', () => {
+  const open = quickNav.classList.toggle('is-open');
+  quickToggle.setAttribute('aria-expanded', String(open));
+  quickToggle.setAttribute('aria-label', open ? '빠른 메뉴 닫기' : '빠른 메뉴 열기');
+});
+quickNav.addEventListener('click', event => { if (event.target.closest('button,a')) closeQuickNav(); });
+document.addEventListener('click', event => { if (!quickNav.contains(event.target) && !quickToggle.contains(event.target)) closeQuickNav(); });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && quickNav.classList.contains('is-open')) closeQuickNav(true);
+});
+window.matchMedia('(min-width: 1200px)').addEventListener('change', () => closeQuickNav());
+
+const heroCarousel = document.querySelector('.hero-carousel');
+if (heroCarousel) {
+  const slides = [...heroCarousel.querySelectorAll('.hero-slide')];
+  const pagination = [...heroCarousel.querySelectorAll('[data-slide]')];
+  const playButton = heroCarousel.querySelector('.hero-play');
+  const splitSlide = heroCarousel.querySelector('.hero-slide:not(.hero--full)');
+  let currentSlide = 0;
+  let autoplayTimer;
+  let userPaused = motionPreference.matches;
+  let heroInView = true;
+  const updateHeroControls = () => {
+    if (splitSlide.hidden) return;
+    const copy = splitSlide.querySelector('.hero-copy').getBoundingClientRect();
+    const frame = heroCarousel.getBoundingClientRect();
+    heroCarousel.style.setProperty('--split-controls-top', `${copy.bottom - frame.top - 68}px`);
+  };
+  if ('ResizeObserver' in window) new ResizeObserver(updateHeroControls).observe(splitSlide.querySelector('.hero-copy'));
+  window.addEventListener('resize', updateHeroControls);
+  const refreshPlayButton = () => {
+    playButton.setAttribute('aria-label', userPaused ? '자동 재생 시작' : '자동 재생 일시정지');
+    playButton.setAttribute('aria-pressed', String(userPaused));
+    playButton.querySelector('span').textContent = userPaused ? '▶' : 'Ⅱ';
+  };
+  const scheduleSlide = () => {
+    window.clearTimeout(autoplayTimer);
+    if (userPaused || !heroInView || document.hidden || heroCarousel.matches(':hover') || heroCarousel.contains(document.activeElement) || dialog.open || menu.open) return;
+    autoplayTimer = window.setTimeout(() => {
+      if (dialog.open || menu.open) { scheduleSlide(); return; }
+      changeSlide(currentSlide + 1);
+    }, 7000);
+  };
+  function changeSlide(index, manual = false) {
+    currentSlide = (index + slides.length) % slides.length;
+    slides.forEach((slide, number) => { slide.hidden = number !== currentSlide; });
+    updateHeroControls();
+    pagination.forEach((button, number) => {
+      if (number === currentSlide) button.setAttribute('aria-current', 'true');
+      else button.removeAttribute('aria-current');
+    });
+    document.querySelector('#hero-current').textContent = String(currentSlide + 1).padStart(2, '0');
+    if (manual) {
+      userPaused = true;
+      document.querySelector('#hero-status').textContent = slides[currentSlide].getAttribute('aria-label');
+    }
+    refreshPlayButton();
+    scheduleSlide();
+  }
+  heroCarousel.querySelector('.hero-prev').addEventListener('click', () => changeSlide(currentSlide - 1, true));
+  heroCarousel.querySelector('.hero-next').addEventListener('click', () => changeSlide(currentSlide + 1, true));
+  pagination.forEach(button => button.addEventListener('click', () => changeSlide(Number(button.dataset.slide), true)));
+  playButton.addEventListener('click', () => { userPaused = !userPaused; refreshPlayButton(); scheduleSlide(); });
+  heroCarousel.querySelector('.hero-controls').addEventListener('keydown', event => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+    event.preventDefault();
+    changeSlide(currentSlide + (event.key === 'ArrowRight' ? 1 : -1), true);
+  });
+  heroCarousel.addEventListener('mouseenter', () => window.clearTimeout(autoplayTimer));
+  heroCarousel.addEventListener('mouseleave', scheduleSlide);
+  heroCarousel.addEventListener('focusin', () => window.clearTimeout(autoplayTimer));
+  heroCarousel.addEventListener('focusout', () => window.setTimeout(scheduleSlide, 0));
+  document.addEventListener('visibilitychange', scheduleSlide);
+  dialog.addEventListener('close', scheduleSlide);
+  menu.addEventListener('close', scheduleSlide);
+  motionPreference.addEventListener('change', event => { if (event.matches) { userPaused = true; refreshPlayButton(); scheduleSlide(); } });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => { heroInView = entries[0].isIntersecting; scheduleSlide(); }, { threshold: .2 }).observe(heroCarousel);
+  }
+  let swipeStart = null;
+  heroCarousel.addEventListener('pointerdown', event => {
+    if (event.pointerType !== 'touch' || event.target.closest('a,button')) return;
+    swipeStart = { x: event.clientX, y: event.clientY };
+    heroCarousel.setPointerCapture(event.pointerId);
+  });
+  heroCarousel.addEventListener('pointerup', event => {
+    if (!swipeStart) return;
+    const dx = event.clientX - swipeStart.x;
+    const dy = event.clientY - swipeStart.y;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5) changeSlide(currentSlide + (dx < 0 ? 1 : -1), true);
+    swipeStart = null;
+  });
+  heroCarousel.addEventListener('pointercancel', () => { swipeStart = null; });
+  refreshPlayButton();
+  updateHeroControls();
+  scheduleSlide();
+}
