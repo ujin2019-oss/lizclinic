@@ -33,7 +33,7 @@ for (const [key, category] of Object.entries(categories)) {
   panel.setAttribute('aria-labelledby', `tab-${key}`);
   panel.tabIndex = 0;
   panel.hidden = key !== 'firmness';
-  panel.innerHTML = `<div class="panel-intro"><p>${category.intro}</p><span class="panel-count">03 TREATMENTS</span></div><div class="treatment-track" tabindex="0" role="region" aria-label="시술 카드 목록, 모바일에서 좌우로 넘겨 탐색">${category.items.map((id, index) => {
+  panel.innerHTML = `<div class="panel-intro"><p>${category.intro}</p><span class="panel-count">03 TREATMENTS</span></div><div class="treatment-track" tabindex="0" role="region" aria-label="시술 카드 목록, 좌우로 넘겨 탐색">${category.items.map((id, index) => {
     const item = treatments[id];
     return `<article class="treatment-card"><div class="card-image"><img src="images/treatments/${item.image}.webp" srcset="images/treatments/${item.image}-small.webp 240w, images/treatments/${item.image}.webp 376w" sizes="(max-width: 767px) 80vw, (max-width: 1439px) 30vw, 405px" width="376" height="780" loading="lazy" decoding="async" alt="${item.name} 안내를 위한 AI 장비 콘셉트 이미지, 실제 시술 장비와 다를 수 있음"><span class="image-index" aria-hidden="true">0${index + 1}</span><span class="image-label">AI CONCEPT IMAGE</span></div><div class="card-copy"><p class="card-english">${item.english}</p><h3>${item.name}</h3><p class="card-description">${item.description}</p><p class="card-concern">${item.concern}</p><div class="card-links"><button class="text-button" type="button" data-detail="${id}" aria-label="${item.name} 상세 정보 보기">상세 정보 보기 <span class="arrow" aria-hidden="true">↗</span></button><button class="card-consult" type="button" data-consult="${id}" aria-label="${item.name} 상담 안내">상담 문의</button></div></div></article>`;
   }).join('')}</div>`;
@@ -41,6 +41,7 @@ for (const [key, category] of Object.entries(categories)) {
 }
 
 function activateTab(tab) {
+  document.querySelector('.treatment-page').textContent = `${String(tabs.indexOf(tab) + 1).padStart(2, '0')} / 04`;
   tabs.forEach(item => {
     const active = item === tab;
     item.setAttribute('aria-selected', String(active));
@@ -55,8 +56,8 @@ tabs.forEach((tab, index) => {
   tab.addEventListener('click', () => activateTab(tab));
   tab.addEventListener('keydown', event => {
     let next;
-    if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-    if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+    if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
     if (event.key === 'Home') next = 0;
     if (event.key === 'End') next = tabs.length - 1;
     if (next !== undefined) {
@@ -66,6 +67,24 @@ tabs.forEach((tab, index) => {
     }
   });
 });
+
+function moveTreatment(direction) {
+  const index = tabs.findIndex(tab => tab.getAttribute('aria-selected') === 'true');
+  const track = document.querySelector('.treatment-panel:not([hidden]) .treatment-track');
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  if (maxScroll > 2 && ((direction > 0 && track.scrollLeft < maxScroll - 2) || (direction < 0 && track.scrollLeft > 2))) {
+    const card = track.querySelector('.treatment-card');
+    const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap);
+    track.scrollBy({ left: direction * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    return;
+  }
+  const next = (index + direction + tabs.length) % tabs.length;
+  activateTab(tabs[next]);
+  const nextTrack = document.querySelector('.treatment-panel:not([hidden]) .treatment-track');
+  if (direction < 0) nextTrack.scrollLeft = nextTrack.scrollWidth - nextTrack.clientWidth;
+}
+document.querySelector('.treatment-prev').addEventListener('click', () => moveTreatment(-1));
+document.querySelector('.treatment-next').addEventListener('click', () => moveTreatment(1));
 
 const header = document.querySelector('#header');
 const updateHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 16);

@@ -28,7 +28,7 @@
         <a href="#before-after" aria-label="전후사진"><span class="nav-language"><span class="nav-en" aria-hidden="true">BEFORE &amp; AFTER</span><span class="nav-ko" aria-hidden="true">전후사진</span></span></a>
         <a href="#reservation" aria-label="상담 및 예약"><span class="nav-language"><span class="nav-en" aria-hidden="true">RESERVATION</span><span class="nav-ko" aria-hidden="true">상담 및 예약</span></span></a>
       </nav>
-      <button class="header-consult button button--outline" type="button" data-consult>1:1 상담 문의 <span aria-hidden="true">↗</span></button>
+      <button class="header-consult button button--outline" type="button" data-consult aria-label="Secret Boucher"><span class="voucher-label"><span class="voucher-label-default" aria-hidden="true">Secret Boucher</span><span class="voucher-label-hover" aria-hidden="true">나만을 위한 혜택</span></span><span class="voucher-arrow" aria-hidden="true">↗</span></button>
       <button class="menu-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span></button>
     </div>
   </header>
@@ -48,7 +48,7 @@
     </nav>
     <p class="menu-shortcuts-title eyebrow">QUICK MENU</p>
   <div class="menu-shortcuts" role="group" aria-label="빠른 메뉴">
-    <button type="button" data-channel="event"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13h24v15H4zM2 8h28v6H2z" fill="currentColor"/><path d="M16 8v20M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="var(--rail-background)" stroke-width="2"/><path d="M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>이벤트</span></button>
+    <a href="#events"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13h24v15H4zM2 8h28v6H2z" fill="currentColor"/><path d="M16 8v20M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="var(--rail-background)" stroke-width="2"/><path d="M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>이벤트</span></a>
     <a href="#before-after"><svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="15" rx="10" ry="13" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 2v26M9 11l4-1m6 0 4 1M10 15h2m8 0h2m-6-3-2 7h3m-5 3q4 3 8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-dasharray="2 1"/></svg><span>전후사진</span></a>
     <button type="button" data-channel="youtube"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="6" width="28" height="20" rx="6" fill="currentColor"/><path d="m13 11 9 5-9 5z" fill="var(--rail-background)"/></svg><span>유튜브</span></button>
     <button type="button" data-channel="instagram"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="8" r="1.6" fill="currentColor"/></svg><span>인스타그램</span></button>
@@ -60,17 +60,22 @@
 
   <main id="main">
     <section class="hero-carousel" id="home" aria-label="리즈 클리닉 브랜드 이야기" aria-roledescription="캐러셀">
-      <div class="hero hero-slide hero--full" id="hero-slide-2" role="group" aria-roledescription="슬라이드" aria-label="1 / 3, 머무는 순간까지 세심하게">
+      <div class="hero hero-slide hero--full" id="hero-slide-2" role="group" aria-roledescription="슬라이드" aria-label="1 / 4, 머무는 순간까지 세심하게">
         <picture class="hero-full-image"><source media="(max-width: 767px)" srcset="images/hero/hero-space-mobile.webp"><img src="images/hero/hero-space.webp" srcset="images/hero/hero-space-small.webp 960w, images/hero/hero-space.webp 1672w" sizes="100vw" width="1672" height="941" alt="따뜻한 자연광과 트래버틴 리셉션을 담은 AI 클리닉 공간 콘셉트" fetchpriority="high" decoding="async"></picture>
         <div class="hero-full-copy"><p class="eyebrow">LIZ CLINIC / OUR SPACE</p><h2 class="serif">A quiet moment.<br><em>Entirely yours.</em></h2><p>머무는 순간까지 세심하게.<br>당신의 이야기에 집중할 수 있는 공간을 지향합니다.</p><a class="button button--primary" href="#space">클리닉 공간 살펴보기 <span class="arrow" aria-hidden="true">↗</span></a></div>
         <span class="hero-concept-label">AI BRAND CONCEPT</span>
       </div>
-      <div class="hero hero-slide hero--full hero--campaign" id="hero-slide-3" role="group" aria-roledescription="슬라이드" aria-label="2 / 3, 당신만의 피부 이야기" hidden>
+      <div class="hero hero-slide hero--full hero--campaign" id="hero-slide-3" role="group" aria-roledescription="슬라이드" aria-label="2 / 4, 당신만의 피부 이야기" hidden>
         <picture class="hero-full-image"><source media="(max-width: 767px)" srcset="images/hero/hero-campaign-profile-mobile.webp"><img src="images/hero/hero-campaign-profile.webp" srcset="images/hero/hero-campaign-profile-small.webp 960w, images/hero/hero-campaign-profile.webp 1672w" sizes="100vw" width="1672" height="941" alt="자연광을 향해 왼쪽을 바라보는 브랜드 모델의 측면 캠페인 이미지" decoding="async"></picture>
         <div class="hero-full-copy"><p class="eyebrow">LIZ CLINIC / PERSONAL CARE</p><h2 class="serif">Your own beauty.<br><em>Your own rhythm.</em></h2><p>나다운 아름다움, 나에게 맞는 속도로.<br>피부를 이해하는 맞춤 케어에서 시작합니다.</p><a class="button button--primary" href="#philosophy">리즈의 진료 철학 <span class="arrow" aria-hidden="true">↗</span></a></div>
         <span class="hero-concept-label">AI BRAND CONCEPT</span>
       </div>
-      <div class="hero hero-slide" id="hero-slide-1" role="group" aria-roledescription="슬라이드" aria-label="3 / 3, 시간을 넘어 빛나는 피부" hidden>
+      <div class="hero hero-slide hero--full hero--treatment" id="hero-slide-4" role="group" aria-roledescription="슬라이드" aria-label="3 / 4, 세심한 손길로 이어지는 맞춤 케어" hidden>
+        <picture class="hero-full-image"><source media="(max-width: 767px)" srcset="images/hero/hero-treatment-mobile.webp"><img src="images/hero/hero-treatment.webp" srcset="images/hero/hero-treatment-small.webp 960w, images/hero/hero-treatment.webp 1672w" sizes="100vw" width="1672" height="941" alt="흰 가운과 장갑을 착용한 의사가 누워 있는 환자의 볼에 피부 관리 기기를 사용하는 AI 시술 콘셉트 이미지" decoding="async"></picture>
+        <div class="hero-full-copy"><p class="eyebrow">LIZ CLINIC / THOUGHTFUL CARE</p><h2 class="serif">Attentive hands.<br><em>Personal care.</em></h2><p>피부를 이해하는 마음, 세심한 손길로 이어지다.<br>상담부터 시술과 사후 안내까지,<br>당신의 피부 상태에 맞춰 차분히 살펴봅니다.</p><a class="button button--primary" href="#experience">맞춤 진료 과정 살펴보기 <span class="arrow" aria-hidden="true">↗</span></a></div>
+        <span class="hero-concept-label">AI TREATMENT CONCEPT</span>
+      </div>
+      <div class="hero hero-slide" id="hero-slide-1" role="group" aria-roledescription="슬라이드" aria-label="4 / 4, 시간을 넘어 빛나는 피부" hidden>
       <div class="hero-copy">
         <p class="eyebrow hero-eyebrow">LIZ CLINIC</p>
         <h1 class="serif" id="hero-title"><span>Time-Honored</span><span>Radiance,</span><em>Designed for You.</em></h1>
@@ -91,9 +96,9 @@
       </div>
       <div class="hero-controls" aria-label="메인 비주얼 조작">
         <button type="button" class="hero-prev" aria-label="이전 슬라이드">←</button>
-        <span class="hero-counter" aria-hidden="true"><span id="hero-current">01</span><span>/ 03</span></span>
+        <span class="hero-counter" aria-hidden="true"><span id="hero-current">01</span><span>/ 04</span></span>
         <button type="button" class="hero-next" aria-label="다음 슬라이드">→</button>
-        <div class="hero-pagination" aria-label="슬라이드 선택"><button type="button" data-slide="0" aria-label="1번 슬라이드" aria-current="true"></button><button type="button" data-slide="1" aria-label="2번 슬라이드"></button><button type="button" data-slide="2" aria-label="3번 슬라이드"></button></div>
+        <div class="hero-pagination" aria-label="슬라이드 선택"><button type="button" data-slide="0" aria-label="1번 슬라이드" aria-current="true"></button><button type="button" data-slide="1" aria-label="2번 슬라이드"></button><button type="button" data-slide="2" aria-label="3번 슬라이드"></button><button type="button" data-slide="3" aria-label="4번 슬라이드"></button></div>
         <button type="button" class="hero-play" aria-label="자동 재생 일시정지" aria-pressed="false"><span aria-hidden="true">Ⅱ</span></button>
       </div>
       <p class="sr-only" id="hero-status" aria-live="polite" aria-atomic="true"></p>
@@ -114,19 +119,44 @@
         <div><p class="eyebrow">PERSONALIZED SOLUTION</p><h2 class="serif" id="docent-title">Your Skin,<br><em>Your Solution.</em></h2></div>
         <div class="docent-intro"><p>당신의 피부 고민부터 살펴보세요.</p><span>피부 고민을 선택하면<br>관련 시술 정보를 확인할 수 있습니다.</span></div>
       </div>
-      <div class="concern-tabs" role="tablist" aria-label="피부 고민 선택">
+      <div class="docent-browser">
+      <div class="concern-tabs" role="tablist" aria-label="피부 고민 선택" aria-orientation="vertical">
         <button id="tab-firmness" type="button" role="tab" aria-selected="true" aria-controls="panel-firmness" tabindex="0" data-category="firmness"><span aria-hidden="true">01</span>탄력 / 주름</button>
         <button id="tab-pigment" type="button" role="tab" aria-selected="false" aria-controls="panel-pigment" tabindex="-1" data-category="pigment"><span aria-hidden="true">02</span>기미 / 색소</button>
         <button id="tab-texture" type="button" role="tab" aria-selected="false" aria-controls="panel-texture" tabindex="-1" data-category="texture"><span aria-hidden="true">03</span>모공 / 피부결</button>
         <button id="tab-contour" type="button" role="tab" aria-selected="false" aria-controls="panel-contour" tabindex="-1" data-category="contour"><span aria-hidden="true">04</span>페이스 라인</button>
       </div>
-      <div id="treatment-panels"></div>
+      <div class="docent-results">
+        <div class="treatment-controls" aria-label="시술 슬라이드 조작"><span class="treatment-page" aria-live="polite">01 / 04</span><button type="button" class="treatment-prev" aria-label="이전 시술 슬라이드" aria-controls="treatment-panels">←</button><button type="button" class="treatment-next" aria-label="다음 시술 슬라이드" aria-controls="treatment-panels">→</button></div>
+        <div id="treatment-panels"></div>
+      </div>
+      </div>
       <noscript><p class="noscript-note">피부 고민별 시술 탐색과 데모 상담 안내는 JavaScript를 켜면 이용할 수 있습니다.</p></noscript>
       <div class="docent-bottom"><p class="medical-note">시술 적합성은 개인의 피부 상태에 따라 의료진 상담을 통해 결정됩니다.<br>장비 이미지는 AI로 제작한 콘셉트 비주얼이며, 제조사의 공식 제품 사진이 아닙니다.</p><p class="swipe-hint" aria-hidden="true">옆으로 넘겨 살펴보세요 <span>⟷</span></p></div>
     </section>
+    <section class="promotions section-space container" id="events" aria-labelledby="events-title">
+      <div class="section-heading reveal"><div><p class="eyebrow">EVENTS &amp; PROMOTIONS</p><h2 class="section-title serif" id="events-title">A little more care.<br><em>Just for you.</em></h2></div><div class="heading-description"><h3>나를
+         위한 케어를 만나는 시간</h3><p>계절에 맞는 피부 관리부터 나만의 진료 계획까지.<br>리즈가 제안하는 케어 소식을 살펴보세요.</p></div></div>
+      <div class="promotion-grid">
+        <article class="promotion-banner promotion-banner--season reveal">
+          <img src="images/hero/hero-campaign-profile.webp" width="1672" height="941" loading="lazy" alt="따뜻한 자연광 속 브랜드 모델의 옆모습">
+          <div class="promotion-copy"><span class="promotion-tag">SEASONAL CARE</span><h3 class="serif">A season<br><em>for your skin.</em></h3><p class="promotion-subtitle">계절이 바뀔 때, 피부도 세심하게.</p><p>건조함과 피부결 고민을 살펴보는<br>시즌 케어 프로그램 안내</p><a class="text-button" href="#docent" data-select-category="texture">프로그램 살펴보기 <span class="arrow" aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="promotion-banner promotion-banner--personal reveal">
+          <img src="images/space/consultation.webp" width="326" height="361" loading="lazy" alt="차분한 뉴트럴 톤의 클리닉 상담 공간 콘셉트">
+          <div class="promotion-copy"><span class="promotion-tag">PERSONAL CONSULTATION</span><h3 class="serif">Your care.<br><em>Your beginning.</em></h3><p class="promotion-subtitle">나에게 맞는 케어, 대화에서 시작.</p><p>피부 고민과 일상을 함께 살펴보는<br>1:1 맞춤 상담 안내</p><button class="text-button" type="button" data-consult>상담 안내 보기 <span class="arrow" aria-hidden="true">↗</span></button></div>
+        </article>
+        <article class="promotion-banner promotion-banner--signature reveal">
+          <img src="images/editorial/skin-quality.webp" width="233" height="300" loading="lazy" alt="자연스러운 피부결을 담은 브랜드 모델 클로즈업">
+          <div class="promotion-copy"><span class="promotion-tag">SIGNATURE PROGRAM</span><h3 class="serif">Time for<br><em>yourself.</em></h3><p class="promotion-subtitle">나를 돌보는 시간, 나다운 선택.</p><p>탄력부터 피부결까지 고민에 맞춰<br>살펴보는 시그니처 케어 안내</p><a class="text-button" href="#signature">시그니처 살펴보기 <span class="arrow" aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
+      <p class="section-disclaimer">이벤트·프로모션 배너는 디자인 데모입니다. 현재 진행 중인 실제 할인이나 혜택, 예약 프로그램은 없습니다.</p>
+    </section>
+
     <section class="philosophy section-band" id="philosophy" aria-labelledby="philosophy-title">
       <div class="container philosophy-grid">
-        <figure class="philosophy-portrait reveal"><img src="images/editorial/philosophy.webp" width="378" height="333" loading="lazy" alt="자연광 아래 피부를 살펴보는 브랜드 모델"><figcaption>브랜드 모델 이미지 · 의료진 사진이 아닙니다.</figcaption></figure>
+        <figure class="philosophy-portrait reveal"><img src="images/editorial/doctor-team.webp" width="1200" height="1050" loading="lazy" alt="흰 의사 가운을 입고 함께 서 있는 4명의 가상 의료진"><figcaption>AI로 제작한 의료진 콘셉트 이미지입니다.</figcaption></figure>
         <div class="philosophy-copy reveal">
           <p class="eyebrow">BRAND &amp; DOCTOR PHILOSOPHY</p>
           <h2 class="section-title serif" id="philosophy-title">Understanding you.<br><em>Before everything.</em></h2>
@@ -157,6 +187,8 @@
 
 
 
+
+
     <section class="clinic-space section-band section-space" id="space" aria-labelledby="space-title"><div class="container">
       <div class="section-heading reveal"><div><p class="eyebrow">CLINIC SPACE</p><h2 class="section-title serif" id="space-title">Room to pause.<br><em>Space to care.</em></h2></div><div class="heading-description"><h3>마음이 머무는 여백</h3><p>따뜻한 빛과 차분한 질감.<br>상담과 관리에 집중할 수 있는 공간을 지향합니다.</p></div></div>
       <div class="space-gallery">
@@ -184,7 +216,7 @@
 
 
   <nav class="quick-nav" id="quick-nav" aria-label="우측 빠른 메뉴">
-    <button type="button" data-channel="event"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13h24v15H4zM2 8h28v6H2z" fill="currentColor"/><path d="M16 8v20M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="var(--rail-background)" stroke-width="2"/><path d="M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>이벤트</span></button>
+    <a href="#events"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 13h24v15H4zM2 8h28v6H2z" fill="currentColor"/><path d="M16 8v20M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="var(--rail-background)" stroke-width="2"/><path d="M16 8C7 9 6 1 11 2c4 0 5 6 5 6s1-6 5-6c5-1 4 7-5 6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>이벤트</span></a>
     <a href="#before-after"><svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="15" rx="10" ry="13" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 2v26M9 11l4-1m6 0 4 1M10 15h2m8 0h2m-6-3-2 7h3m-5 3q4 3 8 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-dasharray="2 1"/></svg><span>전후사진</span></a>
     <button type="button" data-channel="youtube"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="6" width="28" height="20" rx="6" fill="currentColor"/><path d="m13 11 9 5-9 5z" fill="var(--rail-background)"/></svg><span>유튜브</span></button>
     <button type="button" data-channel="instagram"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="8" r="1.6" fill="currentColor"/></svg><span>인스타그램</span></button>
