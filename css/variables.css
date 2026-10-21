@@ -1,0 +1,16 @@
+:root {
+  --bronze: #C2A682;
+  --bronze-ink: #806446;
+  --cream: #FDFBF7;
+  --charcoal: #22252A;
+  --gray: #737373;
+  --ivory: #F5F1EA;
+  --border: #E6E1D9;
+  --font-body: 'Pretendard', sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --container: 1280px;
+  --gutter: clamp(32px, 5.55vw, 80px);
+  --header-height: 88px;
+  --section-space: clamp(96px, 9.7vw, 144px);
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
